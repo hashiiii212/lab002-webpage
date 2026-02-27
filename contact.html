@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | CS 224L</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0a0e1a;--surface:#111827;--surface2:#0f172a;--border:#1e2d45;
+    --accent:#00d4ff;--accent2:#7c3aed;--text:#e2e8f0;--muted:#64748b;
+    --error:#f87171;--success:#10b981;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;min-height:100vh;display:flex;flex-direction:column;}
+  header{background:rgba(10,14,26,.95);border-bottom:1px solid var(--border);padding:0 1.5rem;height:64px;display:flex;align-items:center;justify-content:space-between;}
+  .logo{font-family:'Syne',sans-serif;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none;font-size:1.05rem;}
+  header nav a{color:var(--muted);text-decoration:none;font-size:.8rem;margin-left:1rem;transition:color .2s;}
+  header nav a:hover{color:var(--accent);}
+  main{flex:1;max-width:580px;width:100%;margin:0 auto;padding:3rem 1rem 4rem;}
+  h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.5rem;}
+  .subtitle{color:var(--muted);font-size:.8rem;margin-bottom:2rem;line-height:1.6;}
+  .field{margin-bottom:1rem;}
+  .field label{display:block;font-size:.75rem;color:var(--muted);margin-bottom:.4rem;}
+  .field input,.field textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:.7rem .9rem;color:var(--text);font-family:'DM Mono',monospace;font-size:.82rem;outline:none;transition:border-color .2s,box-shadow .2s;resize:vertical;}
+  .field input:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,255,.08);}
+  .field input::placeholder,.field textarea::placeholder{color:var(--muted);opacity:.6;}
+  textarea{min-height:130px;}
+  .error-msg{font-size:.72rem;color:var(--error);margin-top:.3rem;display:none;}
+  .btn{width:100%;margin-top:1rem;padding:.9rem;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:8px;font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:opacity .2s,transform .15s;}
+  .btn:hover{opacity:.9;transform:translateY(-1px);}
+  .alert{border-radius:8px;padding:1rem;font-size:.8rem;text-align:center;margin-top:1rem;display:none;}
+  .alert.success{background:rgba(16,185,129,.08);border:1px solid var(--success);color:var(--success);}
+  .alert.error{background:rgba(248,113,113,.08);border:1px solid var(--error);color:var(--error);}
+  footer{border-top:1px solid var(--border);text-align:center;padding:1.25rem;color:var(--muted);font-size:.72rem;}
+  footer a{color:var(--accent);text-decoration:none;}
+</style>
+</head>
+<body>
+<header>
+  <a href="index.html" class="logo">UET·CS</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="schedule.html">Schedule</a>
+    <a href="registration.html">Register</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Get in Touch</h1>
+  <p class="subtitle">CS 224L Task 9 — Contact form with Formspree integration, client-side validation, and success/error feedback.</p>
+
+  <!--
+    FORMSPREE SETUP:
+    1. Create free account at https://formspree.io
+    2. Create a new form and get your endpoint
+    3. Replace YOUR_FORM_ID below with your actual Formspree form ID
+  -->
+  <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+    <div class="field">
+      <label for="name">Full Name *</label>
+      <input type="text" id="name" name="name" placeholder="Ahmad Khan" required>
+      <div class="error-msg" id="nameErr">Please enter your name.</div>
+    </div>
+    <div class="field">
+      <label for="email">Email Address *</label>
+      <input type="email" id="email" name="email" placeholder="student@uetpeshawar.edu.pk" required>
+      <div class="error-msg" id="emailErr">Please enter a valid email address.</div>
+    </div>
+    <div class="field">
+      <label for="subject">Subject</label>
+      <input type="text" id="subject" name="subject" placeholder="Lab question / inquiry">
+    </div>
+    <div class="field">
+      <label for="message">Message *</label>
+      <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
+      <div class="error-msg" id="msgErr">Please enter a message (min. 10 characters).</div>
+    </div>
+
+    <!-- Formspree honeypot anti-spam -->
+    <input type="text" name="_gotcha" style="display:none">
+
+    <button type="submit" class="btn" id="submitBtn">Send Message →</button>
+
+    <div class="alert success" id="successAlert">✓ Message sent! We'll get back to you within 24 hours.</div>
+    <div class="alert error" id="errorAlert">✕ Something went wrong. Please try again or email us directly.</div>
+  </form>
+</main>
+
+<footer>
+  CS 224L Web Technologies &nbsp;·&nbsp; Mr. Mohammad, Lecturer &nbsp;·&nbsp; <a href="https://www.uetpeshawar.edu.pk" target="_blank">UET Peshawar</a>
+</footer>
+
+<script>
+  const form = document.getElementById('contactForm');
+  const nameI = document.getElementById('name');
+  const emailI = document.getElementById('email');
+  const msgI = document.getElementById('message');
+
+  function showErr(id) { document.getElementById(id).style.display = 'block'; }
+  function hideErr(id) { document.getElementById(id).style.display = 'none'; }
+
+  function validate() {
+    let ok = true;
+    if (!nameI.value.trim()) { showErr('nameErr'); ok = false; } else hideErr('nameErr');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailI.value)) { showErr('emailErr'); ok = false; } else hideErr('emailErr');
+    if (msgI.value.trim().length < 10) { showErr('msgErr'); ok = false; } else hideErr('msgErr');
+    return ok;
+  }
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    if (!validate()) return;
+
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        document.getElementById('successAlert').style.display = 'block';
+        document.getElementById('errorAlert').style.display = 'none';
+        form.reset();
+      } else {
+        throw new Error();
+      }
+    } catch {
+      document.getElementById('errorAlert').style.display = 'block';
+      document.getElementById('successAlert').style.display = 'none';
+    } finally {
+      btn.textContent = 'Send Message →';
+      btn.disabled = false;
+    }
+  });
+
+  // Live validation on blur
+  [nameI, emailI, msgI].forEach(el => el.addEventListener('blur', validate));
+</script>
+</body>
+</html>

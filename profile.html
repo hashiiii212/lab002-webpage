@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Profile | Lab 02 | CS 224L</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .profile-layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media(max-width: 768px) { .profile-layout { grid-template-columns: 1fr; } }
+
+    /* Avatar card */
+    .profile-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      text-align: center;
+      position: sticky;
+      top: 80px;
+    }
+    .avatar {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem; font-weight: 800; color: #fff;
+      margin: 0 auto 1.25rem;
+    }
+    .profile-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem; font-weight: 700; margin-bottom: .25rem;
+    }
+    .profile-reg { font-size: .75rem; color: var(--muted); margin-bottom: 1rem; }
+    .profile-badge {
+      display: inline-block;
+      background: rgba(0,212,255,.1); border: 1px solid rgba(0,212,255,.25);
+      color: var(--accent); font-size: .68rem; border-radius: 20px;
+      padding: .25rem .75rem; margin-bottom: 1.25rem;
+    }
+    .profile-divider { border:none; border-top:1px solid var(--border); margin: 1rem 0; }
+    .profile-info { text-align: left; }
+    .p-row { display:flex; gap:.6rem; font-size:.75rem; margin-bottom:.5rem; }
+    .p-row .pk { color:var(--muted); min-width:80px; flex-shrink:0; }
+    .p-row .pv { color:var(--text); }
+
+    .social-links { display:flex; flex-direction:column; gap:.5rem; margin-top:1.25rem; }
+    .social-link {
+      display:flex; align-items:center; gap:.6rem;
+      padding:.5rem .75rem; border-radius:var(--radius);
+      border:1px solid var(--border); text-decoration:none;
+      font-size:.75rem; color:var(--muted);
+      transition:border-color .2s, color .2s;
+    }
+    .social-link:hover { border-color:var(--accent); color:var(--accent); }
+    .social-icon { font-size:.9rem; }
+
+    /* Right column */
+    .profile-right { display:flex; flex-direction:column; gap:1.25rem; }
+    .info-panel {
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:var(--radius-lg); padding:1.5rem;
+    }
+    .info-panel h3 {
+      font-family:'Syne',sans-serif; font-size:.9rem; font-weight:700;
+      color:var(--accent); margin-bottom:1rem;
+      padding-bottom:.5rem; border-bottom:1px solid var(--border);
+    }
+    .info-panel p { font-size:.8rem; color:var(--muted); line-height:1.8; }
+
+    /* Course list */
+    .course-list { display:flex; flex-direction:column; gap:.6rem; }
+    .course-row {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:.7rem .9rem; background:var(--surface2);
+      border:1px solid var(--border); border-radius:var(--radius);
+      font-size:.78rem; transition:border-color .2s;
+    }
+    .course-row:hover { border-color:rgba(0,212,255,.3); }
+    .cr-code { color:var(--accent); font-size:.7rem; min-width:70px; }
+    .cr-name { color:var(--text); flex:1; padding:0 .75rem; }
+    .cr-ch { color:var(--muted); font-size:.7rem; }
+
+    /* Skills */
+    .skills-grid { display:flex; flex-wrap:wrap; gap:.5rem; }
+    .skill-tag {
+      padding:.3rem .75rem; border-radius:20px;
+      border:1px solid var(--border); font-size:.72rem; color:var(--text);
+      transition:border-color .2s;
+    }
+    .skill-tag:hover { border-color:var(--accent); color:var(--accent); }
+    .skill-tag.hot { border-color:rgba(0,212,255,.3); color:var(--accent); background:rgba(0,212,255,.06); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="../index.html" class="logo">UET·CS</a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../lab01/index.html">Lab 01</a></li>
+        <li><a href="index.html">Lab 02</a></li>
+        <li><a href="schedule.html">Schedule</a></li>
+        <li><a href="profile.html" class="active">Profile</a></li>
+        <li><a href="registration.html">Register</a></li>
+        <li><a href="https://www.uetpeshawar.edu.pk" target="_blank" rel="noopener" class="ext">UET</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="page-header animate-up">
+      <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="index.html">Lab 02</a> / Profile</div>
+      <h1>Student Profile</h1>
+      <p>Task 06 — Professional introduction with navigation to all lab exercises, GitHub profile links, and UET branding.</p>
+    </div>
+
+    <div class="profile-layout animate-up delay-1">
+
+      <!-- Left: Profile Card -->
+      <aside>
+        <div class="profile-card">
+          <div class="avatar">HK</div>
+          <div class="profile-name">Hisham Khan</div>
+          <div class="profile-reg">21-CS-101</div>
+          <div class="profile-badge">● CS Student — Active</div>
+
+          <hr class="profile-divider">
+          <div class="profile-info">
+            <div class="p-row"><span class="pk">Department</span><span class="pv">Computer Science</span></div>
+            <div class="p-row"><span class="pk">University</span><span class="pv">UET Peshawar</span></div>
+            <div class="p-row"><span class="pk">Semester</span><span class="pv">5th — Spring 2025</span></div>
+            <div class="p-row"><span class="pk">CGPA</span><span class="pv">3.75 / 4.00</span></div>
+            <div class="p-row"><span class="pk">Email</span><span class="pv" style="word-break:break-all"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d1a2a5a4b5b4bfa591a4b4a5a1b4a2b9b0a6b0a3ffb4b5a4ffa1ba">[email&#160;protected]</a></span></div>
+          </div>
+
+          <div class="social-links">
+            <a href="https://github.com" target="_blank" rel="noopener" class="social-link">
+              <span class="social-icon">⬡</span> GitHub Profile
+            </a>
+            <a href="https://www.linkedin.com" target="_blank" rel="noopener" class="social-link">
+              <span class="social-icon">in</span> LinkedIn
+            </a>
+            <a href="https://www.uetpeshawar.edu.pk" target="_blank" rel="noopener" class="social-link">
+              <span class="social-icon">🌐</span> UET Peshawar
+            </a>
+            <a href="/cdn-cgi/l/email-protection#7300070617161d07330616070316001b120412015d1617065d0318" class="social-link">
+              <span class="social-icon">✉</span> Email Me
+            </a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right: Content panels -->
+      <div class="profile-right">
+
+        <div class="info-panel">
+          <h3>About Me</h3>
+          <p>I'm a 5th semester Computer Science student at the University of Engineering &amp; Technology, Peshawar. I'm passionate about web development, algorithms, and building software that solves real-world problems. This portfolio showcases my lab work for CS 224L Web Technologies under the guidance of Mr. Mohammad.</p>
+        </div>
+
+        <div class="info-panel">
+          <h3>Current Courses — Spring 2025</h3>
+          <div class="course-list">
+            <div class="course-row">
+              <span class="cr-code">CS 224L</span>
+              <span class="cr-name">Web Technologies</span>
+              <span class="cr-ch">3+1 CH</span>
+            </div>
+            <div class="course-row">
+              <span class="cr-code">CS 301</span>
+              <span class="cr-name">Analysis of Algorithms</span>
+              <span class="cr-ch">3 CH</span>
+            </div>
+            <div class="course-row">
+              <span class="cr-code">CS 201</span>
+              <span class="cr-name">Object Oriented Programming</span>
+              <span class="cr-ch">3+1 CH</span>
+            </div>
+            <div class="course-row">
+              <span class="cr-code">CS 312</span>
+              <span class="cr-name">Operating Systems</span>
+              <span class="cr-ch">3 CH</span>
+            </div>
+            <div class="course-row">
+              <span class="cr-code">CS 215</span>
+              <span class="cr-name">Digital Logic Design</span>
+              <span class="cr-ch">3+1 CH</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-panel">
+          <h3>Technical Skills</h3>
+          <div class="skills-grid">
+            <span class="skill-tag hot">HTML5</span>
+            <span class="skill-tag hot">CSS3</span>
+            <span class="skill-tag hot">JavaScript</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">C++</span>
+            <span class="skill-tag">Java</span>
+            <span class="skill-tag">Git &amp; GitHub</span>
+            <span class="skill-tag">GitHub Pages</span>
+            <span class="skill-tag">Responsive Design</span>
+            <span class="skill-tag">SQL</span>
+            <span class="skill-tag">Linux</span>
+          </div>
+        </div>
+
+        <div class="info-panel">
+          <h3>Lab Exercises — Quick Links</h3>
+          <div class="course-list">
+            <a href="../lab01/index.html" class="course-row" style="text-decoration:none;cursor:pointer">
+              <span class="cr-code">Lab 01</span>
+              <span class="cr-name">HTML Fundamentals</span>
+              <span class="cr-ch" style="color:var(--accent)">→</span>
+            </a>
+            <a href="index.html" class="course-row" style="text-decoration:none;cursor:pointer">
+              <span class="cr-code">Lab 02</span>
+              <span class="cr-name">Tables, Forms &amp; Navigation</span>
+              <span class="cr-ch" style="color:var(--accent)">→</span>
+            </a>
+            <a href="schedule.html" class="course-row" style="text-decoration:none;cursor:pointer">
+              <span class="cr-code">Task 02</span>
+              <span class="cr-name">Weekly Course Schedule</span>
+              <span class="cr-ch" style="color:var(--accent)">→</span>
+            </a>
+            <a href="registration.html" class="course-row" style="text-decoration:none;cursor:pointer">
+              <span class="cr-code">Task 04</span>
+              <span class="cr-name">Student Registration Form</span>
+              <span class="cr-ch" style="color:var(--accent)">→</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <a href="index.html" class="btn btn-outline">← Back to Lab 02</a>
+      &nbsp;
+      <a href="registration.html" class="btn btn-primary">Registration Form →</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <a href="../index.html" class="logo">UET·CS</a>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="index.html">Lab 02</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="registration.html">Register</a>
+      <a href="https://www.uetpeshawar.edu.pk" target="_blank" rel="noopener">UET Peshawar ↗</a>
+    </div>
+    <div class="footer-copy">CS 224L Web Technologies &nbsp;·&nbsp; Mr. Mohammad, Lecturer &nbsp;·&

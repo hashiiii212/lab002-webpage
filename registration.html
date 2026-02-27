@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Registration | UET Peshawar</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #0f172a;
+    --border: #1e2d45;
+    --border-focus: #00d4ff;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --error: #f87171;
+    --success: #10b981;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    background: rgba(10,14,26,0.95);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  header .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-decoration: none;
+    font-size: 1.05rem;
+  }
+  header nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    margin-left: 1rem;
+    transition: color 0.2s;
+  }
+  header nav a:hover { color: var(--accent); }
+
+  main {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 3rem 1rem 4rem;
+  }
+  .form-card {
+    width: 100%;
+    max-width: 580px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(0,212,255,0.04);
+  }
+  .form-header {
+    padding: 2rem 2rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, rgba(0,212,255,0.04), rgba(124,58,237,0.04));
+  }
+  .form-header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .form-header p { color: var(--muted); font-size: 0.78rem; margin-top: 0.4rem; }
+
+  form { padding: 1.75rem 2rem 2rem; }
+
+  .section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 1.5rem 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-label:first-of-type { margin-top: 0; }
+
+  .field { margin-bottom: 1rem; }
+  .field label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.04em;
+  }
+  .field input,
+  .field select {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.7rem 0.9rem;
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .field input:focus,
+  .field select:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px rgba(0,212,255,0.08);
+  }
+  .field input::placeholder { color: var(--muted); opacity: 0.6; }
+  .field input:invalid:not(:placeholder-shown) { border-color: var(--error); }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  @media(max-width:480px) { .field-row { grid-template-columns: 1fr; } .form-card { border-radius: 0; border-left: none; border-right: none; } }
+
+  select option { background: var(--surface); }
+
+  /* Radio buttons */
+  .radio-group { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.4rem; }
+  .radio-option { position: relative; }
+  .radio-option input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .radio-option label {
+    display: inline-block;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 0.75rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+    margin: 0;
+  }
+  .radio-option input[type="radio"]:checked + label {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(0,212,255,0.08);
+  }
+
+  /* Checkbox */
+  .checkbox-field {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-top: 1.5rem;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .checkbox-field:hover { border-color: var(--border-focus); }
+  .checkbox-field input[type="checkbox"] {
+    width: 16px; height: 16px;
+    accent-color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 2px;
+    cursor: pointer;
+  }
+  .checkbox-field span {
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .checkbox-field span a { color: var(--accent); text-decoration: none; }
+  .checkbox-field span a:hover { text-decoration: underline; }
+
+  .submit-btn {
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 0.9rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+  }
+  .submit-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+  .submit-btn:active { transform: translateY(0); }
+
+  .success-msg {
+    display: none;
+    background: rgba(16,185,129,0.08);
+    border: 1px solid var(--success);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+    color: var(--success);
+    font-size: 0.8rem;
+    text-align: center;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    text-align: center;
+    padding: 1.25rem;
+    color: var(--muted);
+    font-size: 0.72rem;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">UET·CS</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="navigation.html">Nav Demo</a>
+    <a href="schedule.html">Schedule</a>
+  </nav>
+</header>
+
+<main>
+  <div class="form-card">
+    <div class="form-header">
+      <h1>Student Registration</h1>
+      <p>Department of Computer Science &nbsp;·&nbsp; University of Engineering &amp; Technology, Peshawar</p>
+    </div>
+
+    <form id="regForm" novalidate>
+      <div class="section-label">Personal Information</div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="firstName">First Name *</label>
+          <input type="text" id="firstName" name="firstName" placeholder="Ahmad" required>
+        </div>
+        <div class="field">
+          <label for="lastName">Last Name *</label>
+          <input type="text" id="lastName" name="lastName" placeholder="Khan" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="regNumber">Registration Number *</label>
+        <input type="text" id="regNumber" name="regNumber" placeholder="21-CS-101" pattern="[0-9]{2}-[A-Z]{2}-[0-9]+" required>
+      </div>
+
+      <div class="section-label">Account Details</div>
+
+      <div class="field">
+        <label for="email">Email Address *</label>
+        <input type="email" id="email" name="email" placeholder="student@uetpeshawar.edu.pk" required>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="password">Password *</label>
+          <input type="password" id="password" name="password" placeholder="Min. 8 characters" minlength="8" required>
+        </div>
+        <div class="field">
+          <label for="confirmPwd">Confirm Password *</label>
+          <input type="password" id="confirmPwd" name="confirmPwd" placeholder="Re-enter password" required>
+        </div>
+      </div>
+
+      <div class="section-label">Academic Information</div>
+
+      <div class="field">
+        <label for="course">Course Selection *</label>
+        <select id="course" name="course" required>
+          <option value="" disabled selected>— Select a course —</option>
+          <optgroup label="Core Courses">
+            <option value="cs224l">CS 224L – Web Technologies</option>
+            <option value="cs201">CS 201 – Object Oriented Programming</option>
+            <option value="cs301">CS 301 – Analysis of Algorithms</option>
+            <option value="cs312">CS 312 – Operating Systems</option>
+            <option value="cs215">CS 215 – Digital Logic Design</option>
+          </optgroup>
+          <optgroup label="Electives">
+            <option value="cs401">CS 401 – Machine Learning</option>
+            <option value="cs410">CS 410 – Computer Networks</option>
+            <option value="cs420">CS 420 – Database Systems</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Current Semester *</label>
+        <div class="radio-group">
+          <div class="radio-option">
+            <input type="radio" id="sem1" name="semester" value="1" required>
+            <label for="sem1">1st</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="sem2" name="semester" value="2">
+            <label for="sem2">2nd</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="sem3" name="semester" value="3">
+            <label for="sem3">3rd</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="sem4" name="semester" value="4">
+            <label for="sem4">4th</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="sem5" name="semester" value="5">
+            <label for="sem5">5th</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="sem6" name="semester" value="6">
+            <label for="sem6">6th</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="sem7" name="semester" value="7">
+            <label for="sem7">7th</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="sem8" name="semester" value="8">
+            <label for="sem8">8th</label>
+          </div>
+        </div>
+      </div>
+
+      <label class="checkbox-field">
+        <input type="checkbox" id="terms" name="terms" required>
+        <span>I agree to the <a href="#">Terms &amp; Conditions</a> and <a href="#">Privacy Policy</a> of UET Peshawar. I confirm that all information provided is accurate and complete.</span>
+      </label>
+
+      <button type="submit" class="submit-btn">Register →</button>
+      <div class="success-msg" id="successMsg">✓ Registration submitted successfully! Check your email for confirmation.</div>
+    </form>
+  </div>
+</main>
+
+<footer>
+  CS 224L Web Technologies &nbsp;·&nbsp; Mr. Mohammad, Lecturer &nbsp;·&nbsp; <a href="https://www.uetpeshawar.edu.pk" target="_blank">UET Peshawar</a>
+</footer>
+
+<script>
+  document.getElementById('regForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const pwd = document.getElementById('password').value;
+    const cpwd = document.getElementById('confirmPwd').value;
+    if (pwd !== cpwd) {
+      alert('Passwords do not match.');
+      return;
+    }
+    if (!document.getElementById('terms').checked) {
+      alert('Please accept the terms and conditions.');
+      return;
+    }
+    document.getElementById('successMsg').style.display = 'block';
+    this.reset();
+    document.getElementById('successMsg').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+</script>
+</body>
+</html>

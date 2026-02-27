@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navigation Demo | CS 224L</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --border: #1e2d45;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --text: #e2e8f0;
+    --muted: #64748b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Mono', monospace; }
+
+  /* ── TOP NAV ── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,14,26,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-decoration: none;
+  }
+
+  nav.main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 0.25rem;
+  }
+  nav.main-nav ul li a {
+    display: block;
+    padding: 0.45rem 0.85rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+    letter-spacing: 0.05em;
+  }
+  nav.main-nav ul li a:hover,
+  nav.main-nav ul li a.active {
+    color: var(--accent);
+    background: rgba(0,212,255,0.08);
+  }
+  nav.main-nav ul li a.external::after {
+    content: " ↗";
+    font-size: 0.65rem;
+  }
+
+  /* hamburger */
+  .hamburger { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--muted); border-radius: 2px; transition: 0.3s; }
+  .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+  @media(max-width:600px) {
+    .hamburger { display: flex; }
+    nav.main-nav {
+      display: none;
+      position: absolute;
+      top: 64px; left: 0; right: 0;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem;
+    }
+    nav.main-nav.open { display: block; }
+    nav.main-nav ul { flex-direction: column; gap: 0.25rem; }
+  }
+
+  /* ── HERO ── */
+  .hero {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem 3rem;
+    text-align: center;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .hero p { color: var(--muted); font-size: 0.9rem; max-width: 480px; margin: 0 auto; }
+
+  /* ── SECTIONS ── */
+  section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  section h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+  section p { color: var(--muted); font-size: 0.85rem; line-height: 1.8; max-width: 640px; }
+
+  .course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .course-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    transition: border-color 0.2s, transform 0.2s;
+    text-decoration: none;
+    color: var(--text);
+    display: block;
+  }
+  .course-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .course-card .code { font-size: 0.7rem; color: var(--accent); margin-bottom: 0.4rem; }
+  .course-card .name { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 600; }
+
+  .contact-links { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; }
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.8rem;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  footer {
+    border-top: 1px solid var(--border);
+    text-align: center;
+    padding: 2rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">UET·CS</a>
+
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+
+    <nav class="main-nav" id="mainNav">
+      <ul>
+        <li><a href="#home" class="active">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#courses">Courses</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="https://www.uetpeshawar.edu.pk" target="_blank" rel="noopener" class="external">UET Website</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section id="home" class="hero" style="border:none">
+  <h1>Navigation Menu<br>Demo Page</h1>
+  <p>CS 224L Web Technologies — demonstrating semantic HTML navigation with anchor links, external links, and responsive design.</p>
+</section>
+
+<section id="about">
+  <h2>About</h2>
+  <p>This page is part of the CS 224L Web Technologies lab assignments at the Department of Computer Science, University of Engineering &amp; Technology, Peshawar. It demonstrates proper semantic navigation structures using HTML5 <code>&lt;nav&gt;</code>, <code>&lt;header&gt;</code>, and anchor-based internal linking.</p>
+</section>
+
+<section id="courses">
+  <h2>Courses</h2>
+  <p>Current semester course load for Spring 2025:</p>
+  <div class="course-grid">
+    <a href="schedule.html" class="course-card">
+      <div class="code">CS 224L</div>
+      <div class="name">Web Technologies</div>
+    </a>
+    <div class="course-card">
+      <div class="code">CS 301</div>
+      <div class="name">Analysis of Algorithms</div>
+    </div>
+    <div class="course-card">
+      <div class="code">CS 201</div>
+      <div class="name">Object Oriented Programming</div>
+    </div>
+    <div class="course-card">
+      <div class="code">CS 312</div>
+      <div class="name">Operating Systems</div>
+    </div>
+    <div class="course-card">
+      <div class="code">CS 215</div>
+      <div class="name">Digital Logic Design</div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <h2>Contact</h2>
+  <p>Connect with the instructor or explore more university resources:</p>
+  <div class="contact-links">
+    <a href="mailto:student@uetpeshawar.edu.pk" class="contact-link">✉ Email</a>
+    <a href="https://www.uetpeshawar.edu.pk" target="_blank" rel="noopener" class="contact-link">🌐 UET Peshawar</a>
+    <a href="https://github.com" target="_blank" rel="noopener" class="contact-link">⬡ GitHub</a>
+    <a href="registration.html" class="contact-link">📋 Register</a>
+  </div>
+</section>
+
+<footer>
+  <p>CS 224L Web Technologies &nbsp;·&nbsp; Mr. Mohammad, Lecturer &nbsp;·&nbsp; <a href="https://www.uetpeshawar.edu.pk" target="_blank">UET Peshawar</a></p>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('hamburger').classList.toggle('open');
+    document.getElementById('mainNav').classList.toggle('open');
+  }
+  // Active nav highlight on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav.main-nav a');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
+    navLinks.forEach(a => {
+      a.classList.remove('active');
+      if (a.getAttribute('href') === '#' + cur) a.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

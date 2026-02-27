@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CS 224L Web Technologies Lab Portfolio – UET Peshawar">
+  <meta name="keywords" content="UET Peshawar, CS 224L, Web Technologies, HTML, CSS, JavaScript">
+  <meta property="og:title" content="CS 224L Web Technologies Portfolio | UET Peshawar">
+  <meta property="og:description" content="Lab exercise portfolio for CS 224L Web Technologies, Department of Computer Science, UET Peshawar.">
+  <title>CS 224L Portfolio | UET Peshawar</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    /* ── Index-specific styles ── */
+    .hero {
+      padding: 6rem 1.5rem 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .uet-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      background: rgba(255,255,255,0.02);
+    }
+    .uet-badge .pulse { width:6px; height:6px; background:var(--green); border-radius:50%; animation: pulse 2s infinite; }
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+    .hero-sub {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin: 1rem 0 2.5rem;
+      max-width: 520px;
+      line-height: 1.8;
+    }
+    .hero-btns { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+    /* Stats */
+    .stats-row {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem 3rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .stat-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.75rem;
+      flex: 1 1 130px;
+    }
+    .stat-box .num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .stat-box .lbl { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+
+    /* Labs grid */
+    .labs-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .section-head {
+      display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 1.5rem;
+    }
+    .section-head h2 { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 700; }
+    .tag {
+      font-size: 0.65rem; color: var(--accent);
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.2);
+      border-radius: 4px; padding: 0.2rem 0.5rem;
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+
+    .labs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 1rem;
+    }
+    .lab-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      text-decoration: none; color: var(--text);
+      display: flex; flex-direction: column; gap: 0.6rem;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .lab-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,212,255,0.03), transparent);
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .lab-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,212,255,0.07); }
+    .lab-card:hover::before { opacity: 1; }
+    .lab-card.dimmed { opacity: 0.45; pointer-events: none; }
+    .lab-num { font-size: 0.65rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; }
+    .lab-title { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; line-height: 1.3; }
+    .lab-desc { font-size: 0.74rem; color: var(--muted); line-height: 1.7; flex: 1; }
+    .lab-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .chip {
+      font-size: 0.62rem; padding: 0.18rem 0.5rem;
+      border-radius: 4px; border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .lab-arrow { color: var(--accent); font-size: 0.8rem; align-self: flex-end; }
+
+    /* About */
+    .about-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media(max-width:640px) { .about-grid { grid-template-columns: 1fr; } }
+    .about-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; }
+    .about-card h3 { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--accent); margin-bottom: 0.8rem; }
+    .info-row { display: flex; flex-direction: column; gap: 0.5rem; }
+    .info-item { display: flex; gap: 0.75rem; font-size: 0.75rem; }
+    .info-item .k { color: var(--muted); min-width: 90px; flex-shrink: 0; }
+    .info-item .v { color: var(--text); }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">UET·CS</a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="#labs">Labs</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="lab02/schedule.html">Schedule</a></li>
+        <li><a href="lab02/registration.html">Register</a></li>
+        <li><a href="https://github.com" target="_blank" rel="noopener" class="ext">GitHub</a></li>
+        <li><a href="https://www.uetpeshawar.edu.pk" target="_blank" rel="noopener" class="ext">UET</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ── HERO ── -->
+  <div class="hero">
+    <div class="uet-badge animate-up">
+      <span class="pulse"></span>
+      Department of Computer Science &nbsp;·&nbsp; UET Peshawar
+    </div>
+    <h1 class="grad-text animate-up delay-1">Web Technologies<br>Lab Portfolio</h1>
+    <p class="hero-sub animate-up delay-2">CS 224L — Spring 2025 &nbsp;·&nbsp; Mr. Mohammad, Lecturer &nbsp;·&nbsp; Lab exercises covering HTML5, CSS3, forms, tables, navigation, and GitHub Pages deployment.</p>
+    <div class="hero-btns animate-up delay-3">
+      <a href="#labs" class="btn btn-primary">View Lab Exercises →</a>
+      <a href="https://github.com" target="_blank" rel="noopener" class="btn btn-outline">GitHub Profile</a>
+      <a href="lab02/registration.html" class="btn btn-outline">Register for Course</a>
+    </div>
+  </div>
+
+  <!-- ── STATS ── -->
+  <div class="stats-row">
+    <div class="stat-box animate-up"><div class="num">12</div><div class="lbl">Lab Tasks</div></div>
+    <div class="stat-box animate-up delay-1"><div class="num">2</div><div class="lbl">Lab Folders</div></div>
+    <div class="stat-box animate-up delay-2"><div class="num">6</div><div class="lbl">HTML Pages</div></div>
+    <div class="stat-box animate-up delay-3"><div class="num">1</div><div class="lbl">GitHub Pages</div></div>
+  </div>
+
+  <!-- ── LABS ── -->
+  <section id="labs" class="labs-section">
+    <div class="section-head">
+      <h2>Lab Exercises</h2>
+      <span class="tag">CS 224L</span>
+    </div>
+    <div class="labs-grid">
+
+      <a href="lab01/index.html" class="lab-card">
+        <div class="lab-num">Lab 01</div>
+        <div class="lab-title">HTML Fundamentals</div>
+        <div class="lab-desc">Basic HTML structure, semantic elements, headings, paragraphs, lists, links, and images.</div>
+        <div class="lab-chips"><span class="chip">HTML5</span><span class="chip">Semantics</span><span class="chip">Elements</span></div>
+        <div class="lab-arrow">→</div>
+      </a>
+
+      <a href="lab02/index.html" class="lab-card">
+        <div class="lab-num">Lab 02</div>
+        <div class="lab-title">Tables, Forms & Navigation</div>
+        <div class="lab-desc">Course schedule table, navigation menu with anchor links, and full student registration form.</div>
+        <div class="lab-chips"><span class="chip">Tables</span><span class="chip">Forms</span><span class="chip">Nav</span></div>
+        <div class="lab-arrow">→</div>
+      </a>
+
+      <a href="lab02/schedule.html" class="lab-card">
+        <div class="lab-num">Task 02</div>
+        <div class="lab-title">Course Schedule Table</div>
+        <div class="lab-desc">Weekly timetable with colspan on lunch breaks, color-coded courses, and a legend.</div>
+        <div class="lab-chips"><span class="chip">HTML Table</span><span class="chip">colspan</span></div>
+        <div class="lab-arrow">→</div>
+      </a>
+
+      <a href="lab02/index.html#nav-demo" class="lab-card">
+        <div class="lab-num">Task 03</div>
+        <div class="lab-title">Navigation Menu</div>
+        <div class="lab-desc">Semantic &lt;nav&gt; with Home/About/Courses/Contact, anchor links, external UET link, mobile hamburger.</div>
+        <div class="lab-chips"><span class="chip">Semantic HTML</span><span class="chip">Anchors</span></div>
+        <div class="lab-arrow">→</div>
+      </a>
+
+      <a href="lab02/registration.html" class="lab-card">
+        <div class="lab-num">Task 04</div>
+        <div class="lab-title">Registration Form</div>
+        <div class="lab-desc">Text, email, password fields, course dropdown, semester radios, T&amp;C checkbox, and client-side validation.</div>
+        <div class="lab-chips"><span class="chip">Forms</span><span class="chip">Validation</span><span class="chip">Input Types</span></div>
+        <div class="lab-arrow">→</div>
+      </a>
+
+      <a href="lab02/profile.html" class="lab-card">
+        <div class="lab-num">Task 06</div>
+        <div class="lab-title">Student Profile Page</div>
+        <div class="lab-desc">Professional introduction with student info, course links, GitHub profile, and UET branding.</div>
+        <div class="lab-chips"><span class="chip">Profile</span><span class="chip">Branding</span></div>
+        <div class="lab-arrow">→</div>
+      </a>
+
+      <div class="lab-card dimmed">
+        <div class="lab-num">Task 05 / 12</div>
+        <div class="lab-title">GitHub Pages Deployment</div>
+        <div class="lab-desc">Enable GitHub Pages, set source to main branch, verify all pages via GitHub Pages URL.</div>
+        <div class="lab-chips"><span class="chip">GitHub Pages</span><span class="chip">Deployment</span></div>
+        <div class="lab-arrow">→</div>
+      </div>
+
+      <div class="lab-card dimmed">
+        <div class="lab-num">Task 10</div>
+        <div class="lab-title">Performance Optimization</div>
+        <div class="lab-desc">Image compression, lazy loading, SEO meta tags, and minified assets. (Optional)</div>
+        <div class="lab-chips"><span class="chip">SEO</span><span class="chip">Performance</span><span class="chip">Optional</span></div>
+        <div class="lab-arrow">→</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── ABOUT ── -->
+  <section id="about" class="about-section">
+    <div class="section-head">
+      <h2>About</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-card">
+        <h3>Student Information</h3>
+        <div class="info-row">
+          <div class="info-item"><span class="k">Name</span><span class="v">Hisham Khan</span></div>
+          <div class="info-item"><span class="k">Reg. No.</span><span class="v">21-CS-???</span></div>
+          <div class="info-item"><span class="k">Department</span><span class="v">Computer Science</span></div>
+          <div class="info-item"><span class="k">Semester</span><span class="v">5th — Spring 2025</span></div>
+          <div class="info-item"><span class="k">University</span><span class="v">UET Peshawar</span></div>
+        </div>
+      </div>
+      <div class="about-card">
+        <h3>Course Details</h3>
+        <div class="info-row">
+          <div class="info-item"><span class="k">Course</span><span class="v">CS 224L – Web Technologies</span></div>
+          <div class="info-item"><span class="k">Instructor</span><span class="v">Mr. Mohammad</span></div>
+          <div class="info-item"><span class="k">Designation</span><span class="v">Lecturer</span></div>
+          <div class="info-item"><span class="k">Session</span><span class="v">Spring 2025</span></div>
+          <div class="info-item"><span class="k">Repo Type</span><span class="v">GitHub Pages Portfolio</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <a href="index.html" class="logo">UET·CS</a>
+    <div class="footer-links">
+      <a href="lab01/index.html">Lab 01</a>
+      <a href="lab02/index.html">Lab 02</a>
+      <a href="lab02/schedule.html">Schedule</a>
+      <a href="lab02/registration.html">Register</a>
+      <a href="https://www.uetpeshawar.edu.pk" target="_blank" rel="noopener">UET Website ↗</a>
+      <a href="https://github.com" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+    <div class="footer-copy">
+      CS 224L Web Technologies &nbsp;·&nbsp; Mr. Mohammad, Lecturer &nbsp;·&nbsp;
+      <a href="https://www.uetpeshawar.edu.pk" target="_blank">Department of Computer Science, UET Peshawar</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

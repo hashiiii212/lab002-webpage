@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Course Schedule | CS 224L</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --border: #1e2d45;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --green: #10b981;
+    --orange: #f59e0b;
+    --pink: #ec4899;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  header h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  header p {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+  }
+  nav.breadcrumb {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  nav.breadcrumb a { color: var(--accent); text-decoration: none; }
+  nav.breadcrumb a:hover { text-decoration: underline; }
+
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    box-shadow: 0 0 40px rgba(0,212,255,0.05);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 780px;
+  }
+  thead tr th {
+    background: var(--surface);
+    padding: 1rem 0.75rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--border);
+  }
+  thead tr th:first-child { color: var(--muted); }
+  thead tr th:nth-child(2) { color: var(--accent); }
+  thead tr th:nth-child(3) { color: var(--green); }
+  thead tr th:nth-child(4) { color: var(--orange); }
+  thead tr th:nth-child(5) { color: var(--pink); }
+  thead tr th:nth-child(6) { color: var(--accent2); }
+  thead tr th:last-child { color: #94a3b8; }
+
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+  tbody tr:hover { background: rgba(255,255,255,0.02); }
+  td {
+    padding: 0.85rem 0.75rem;
+    font-size: 0.8rem;
+    text-align: center;
+    vertical-align: middle;
+  }
+  td.time {
+    color: var(--muted);
+    font-size: 0.75rem;
+    white-space: nowrap;
+    text-align: left;
+    padding-left: 1rem;
+    border-right: 1px solid var(--border);
+  }
+  td.empty { color: var(--border); }
+  td.course {
+    border-radius: 6px;
+  }
+  td.web { background: rgba(0,212,255,0.08); color: var(--accent); font-weight: 500; }
+  td.algo { background: rgba(16,185,129,0.08); color: var(--green); font-weight: 500; }
+  td.oop { background: rgba(245,158,11,0.08); color: var(--orange); font-weight: 500; }
+  td.os { background: rgba(124,58,237,0.08); color: var(--accent2); font-weight: 500; }
+  td.dld { background: rgba(236,72,153,0.08); color: var(--pink); font-weight: 500; }
+  td.lab { background: rgba(0,212,255,0.04); color: #93c5fd; font-weight: 500; font-style: italic; }
+  td.lunch {
+    background: rgba(100,116,139,0.08);
+    color: var(--muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+  td.free {
+    background: rgba(15,23,42,0.5);
+    color: var(--border);
+    font-size: 0.7rem;
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    justify-content: center;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  .legend-dot {
+    width: 10px; height: 10px; border-radius: 3px;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Weekly Course Schedule</h1>
+  <p>CS 224L — Web Technologies &nbsp;|&nbsp; Spring 2025 &nbsp;|&nbsp; UET Peshawar</p>
+</header>
+<nav class="breadcrumb">
+  <a href="index.html">← Home</a> / Schedule
+</nav>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+        <th>Saturday</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="time">08:00 – 09:00</td>
+        <td class="course web">Web Technologies<br><small>CS 224L</small></td>
+        <td class="course algo">Algorithms<br><small>CS 301</small></td>
+        <td class="course web">Web Technologies<br><small>CS 224L</small></td>
+        <td class="course algo">Algorithms<br><small>CS 301</small></td>
+        <td class="course oop">OOP<br><small>CS 201</small></td>
+        <td class="empty">—</td>
+      </tr>
+      <tr>
+        <td class="time">09:00 – 10:00</td>
+        <td class="course oop">OOP<br><small>CS 201</small></td>
+        <td class="course os">Operating Systems<br><small>CS 312</small></td>
+        <td class="course oop">OOP<br><small>CS 201</small></td>
+        <td class="course os">Operating Systems<br><small>CS 312</small></td>
+        <td class="course dld">DLD<br><small>CS 215</small></td>
+        <td class="empty">—</td>
+      </tr>
+      <tr>
+        <td class="time">10:00 – 11:00</td>
+        <td class="course dld">DLD<br><small>CS 215</small></td>
+        <td class="course dld">DLD<br><small>CS 215</small></td>
+        <td class="course algo">Algorithms<br><small>CS 301</small></td>
+        <td class="free">Free Period</td>
+        <td class="course web">Web Technologies<br><small>CS 224L</small></td>
+        <td class="empty">—</td>
+      </tr>
+      <tr>
+        <td class="time">11:00 – 12:00</td>
+        <td class="free">Free Period</td>
+        <td class="free">Free Period</td>
+        <td class="course os">Operating Systems<br><small>CS 312</small></td>
+        <td class="course dld">DLD<br><small>CS 215</small></td>
+        <td class="free">Free Period</td>
+        <td class="empty">—</td>
+      </tr>
+      <tr>
+        <td class="time">12:00 – 01:00</td>
+        <td class="lunch" colspan="5">🕛 Lunch Break / Prayers</td>
+        <td class="empty">—</td>
+      </tr>
+      <tr>
+        <td class="time">01:00 – 03:00</td>
+        <td class="lab">Web Technologies Lab<br><small>CS 224L-Lab</small></td>
+        <td class="free" colspan="2">Free / Self Study</td>
+        <td class="lab">OOP Lab<br><small>CS 201-Lab</small></td>
+        <td class="free">Free Period</td>
+        <td class="empty">—</td>
+      </tr>
+      <tr>
+        <td class="time">03:00 – 04:00</td>
+        <td class="free">Free Period</td>
+        <td class="course algo">Algorithms<br><small>CS 301</small></td>
+        <td class="course oop">OOP<br><small>CS 201</small></td>
+        <td class="course web">Web Technologies<br><small>CS 224L</small></td>
+        <td class="empty">—</td>
+        <td class="empty">—</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#00d4ff22;border:1px solid #00d4ff"></div>Web Technologies</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#10b98122;border:1px solid #10b981"></div>Algorithms</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f59e0b22;border:1px solid #f59e0b"></div>OOP</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#7c3aed22;border:1px solid #7c3aed"></div>Operating Systems</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#ec489922;border:1px solid #ec4899"></div>DLD</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#93c5fd22;border:1px solid #93c5fd"></div>Lab Session</div>
+</div>
+
+</body>
+</html>
